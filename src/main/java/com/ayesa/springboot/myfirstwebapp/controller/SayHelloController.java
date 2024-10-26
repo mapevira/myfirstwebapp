@@ -20,4 +20,20 @@ public class SayHelloController {
         return "Hello! What are you learning today?";
     }
 
+    @GetMapping("/say-hello-html")
+    @ResponseBody
+    public String sayHelloHtml() {
+        return new StringBuilder()
+                .append("<html>")
+                .append("<head>")
+                .append("<title>My First HTML Page</title>")
+                .append("</head>")
+                .append("<body>")
+                .append("<h1>Hello World!</h1>")
+                .append("<p>This is my first HTML page with body.</p>")
+                .append("</body>")
+                .append("</html>")
+                .toString();
+
+    }
 }
