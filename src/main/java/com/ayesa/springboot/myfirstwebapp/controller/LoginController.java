@@ -1,5 +1,7 @@
 package com.ayesa.springboot.myfirstwebapp.controller;
 
+import com.ayesa.springboot.myfirstwebapp.service.AuthenticationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @since jdk 1.17
  */
 @Controller
+@RequiredArgsConstructor
 @Slf4j
 public class LoginController {
+
+    private final AuthenticationService authenticationService;
 
     @GetMapping("/login")
     public String goToLoginPage() {
@@ -30,9 +35,14 @@ public class LoginController {
     public String goToWelcomePage(@RequestParam String name, @RequestParam String password, ModelMap model) {
         log.info("GoToWelcomePage() (in controller) called!");
 
-        model.put("name", name);
-        model.put("password", password);
+        if (authenticationService.authenticate(name, password)) {
+            model.put("name", name);
 
-        return "welcome";
+            return "welcome";
+        }
+
+        model.put("errorMessage", "Invalid Credentials! Please try again.");
+
+        return "login";
     }
 }
