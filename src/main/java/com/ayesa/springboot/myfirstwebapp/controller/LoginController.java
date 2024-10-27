@@ -3,6 +3,8 @@ package com.ayesa.springboot.myfirstwebapp.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,13 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 public class LoginController {
 
-    @RequestMapping("/login")
-    public String goToLoginPage(@RequestParam String name, ModelMap modelMap) {
-        log.info("GoToLoginPage() - name: {} (in controller) called!", name);
-
-        modelMap.put("name", name);
+    @GetMapping("/login")
+    public String goToLoginPage() {
+        log.info("GoToLoginPage() (in controller) called!");
 
         return "login";
     }
 
+    @PostMapping("/login")
+    public String goToWelcomePage(@RequestParam String name, @RequestParam String password, ModelMap model) {
+        log.info("GoToWelcomePage() (in controller) called!");
+
+        model.put("name", name);
+        model.put("password", password);
+
+        return "welcome";
+    }
 }
