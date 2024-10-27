@@ -2,7 +2,9 @@ package com.ayesa.springboot.myfirstwebapp.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by jt, Spring Framework Guru.
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 
     @RequestMapping("/login")
-    public String goToLoginPage() {
-        log.info("GoToLoginPage (in controller) called!");
+    public String goToLoginPage(@RequestParam String name, ModelMap modelMap) {
+        log.info("GoToLoginPage() - name: {} (in controller) called!", name);
+
+        modelMap.put("name", name);
 
         return "login";
     }
