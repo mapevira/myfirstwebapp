@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  * Created by jt, Spring Framework Guru.
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequiredArgsConstructor
+@SessionAttributes("name")
 @Slf4j
 public class LoginController {
 
@@ -35,7 +37,7 @@ public class LoginController {
         log.info("GoToWelcomePage() (in controller) called!");
 
         if (authenticationService.authenticate(name, password)) {
-            model.put("name", name);
+            //model.put("name", name);
 
             return "welcome";
         }
