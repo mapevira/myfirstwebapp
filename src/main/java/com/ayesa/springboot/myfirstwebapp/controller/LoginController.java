@@ -37,7 +37,7 @@ public class LoginController {
         log.info("GoToWelcomePage() (in controller) called!");
 
         if (authenticationService.authenticate(name, password)) {
-            //model.put("name", name);
+            model.put("name", name);
 
             return "welcome";
         }
