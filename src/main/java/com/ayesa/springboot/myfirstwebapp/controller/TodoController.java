@@ -2,9 +2,11 @@ package com.ayesa.springboot.myfirstwebapp.controller;
 
 import com.ayesa.springboot.myfirstwebapp.model.Todo;
 import com.ayesa.springboot.myfirstwebapp.service.TodoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,7 +54,12 @@ public class TodoController {
     }
 
     @PostMapping("/add-todo")
-    public String addNewTodo(ModelMap model, Todo todo) {
+    public String addNewTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "todo";
+        }
+
         todoService.addNewTodo((String) model.get("name"),
                 todo.getDescription(),
                 LocalDate.now().plusYears(1),

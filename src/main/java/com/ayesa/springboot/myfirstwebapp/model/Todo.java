@@ -1,5 +1,6 @@
 package com.ayesa.springboot.myfirstwebapp.model;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,6 +51,7 @@ public class Todo {
     /**
      * Detailed description of the task.
      */
+    @Size(min = 10, message = "Enter at least 10 characters.")
     private String description;
 
     /**
