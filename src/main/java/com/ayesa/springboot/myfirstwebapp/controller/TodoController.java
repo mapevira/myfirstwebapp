@@ -38,14 +38,23 @@ public class TodoController {
     }
 
     @GetMapping("/add-todo")
-    public String showNewTodoPage() {
+    public String showNewTodoPage(ModelMap model) {
+        Todo todo = Todo.builder()
+                .id(0)
+                .description("")
+                .targetDate(LocalDate.now().plusYears(1))
+                .done(false)
+                .build();
+
+        model.put("todo", todo);
+
         return "todo";
     }
 
     @PostMapping("/add-todo")
-    public String addNewTodo(@RequestParam String description, ModelMap model) {
+    public String addNewTodo(ModelMap model, Todo todo) {
         todoService.addNewTodo((String) model.get("name"),
-                description,
+                todo.getDescription(),
                 LocalDate.now().plusYears(1),
                 false);
 
