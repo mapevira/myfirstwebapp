@@ -67,4 +67,9 @@ public class TodoService {
                 .done(done)
                 .build());
     }
+
+    public void deleteTodoById(final int id) {
+        todos.removeIf(todo -> todo.getId() == id);
+    }
+
 }

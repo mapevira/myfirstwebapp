@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -64,6 +61,13 @@ public class TodoController {
                 todo.getDescription(),
                 LocalDate.now().plusYears(1),
                 false);
+
+        return "redirect:/list-todos";
+    }
+
+    @GetMapping("/delete-todo")
+    public String deleteTodo(@RequestParam int id) {
+        todoService.deleteTodoById(id);
 
         return "redirect:/list-todos";
     }
