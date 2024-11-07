@@ -72,4 +72,8 @@ public class TodoService {
         todos.removeIf(todo -> todo.getId() == id);
     }
 
+    public Todo retrieveTodoById(final int id) {
+        return todos.stream().filter(todo -> todo.getId() == id).findFirst().orElse(null);
+    }
+
 }

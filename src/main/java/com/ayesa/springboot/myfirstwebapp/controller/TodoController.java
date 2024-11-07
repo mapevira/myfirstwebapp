@@ -71,4 +71,12 @@ public class TodoController {
 
         return "redirect:/list-todos";
     }
+
+    @GetMapping("/update-todo")
+    public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
+        Todo todo = todoService.retrieveTodoById(id);
+        model.put("todo", todo);
+
+        return "todo";
+    }
 }
