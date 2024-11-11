@@ -79,4 +79,17 @@ public class TodoController {
 
         return "todo";
     }
+
+    @PostMapping("/update-todo")
+    public String updateTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "todo";
+        }
+
+        String username = (String) model.get("name");
+        todoService.updateTodo(username, todo);
+
+        return "redirect:/list-todos";
+    }
 }

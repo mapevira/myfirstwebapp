@@ -1,6 +1,7 @@
 package com.ayesa.springboot.myfirstwebapp.service;
 
 import com.ayesa.springboot.myfirstwebapp.model.Todo;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class TodoService {
         todos.add(Todo.builder()
                 .id(++todoCount)
                 .username("in28minutes")
-                .description("Learn AWS")
+                .description("Get AWS Certified")
                 .targetDate(LocalDate.now().plusYears(1))
                 .done(false)
                 .build());
@@ -74,6 +75,16 @@ public class TodoService {
 
     public Todo retrieveTodoById(final int id) {
         return todos.stream().filter(todo -> todo.getId() == id).findFirst().orElse(null);
+    }
+
+    public void updateTodo(final String username, @Valid final Todo todo) {
+        todos.stream().filter(t -> t.getId() == todo.getId())
+                .forEach(t -> {
+                    t.setUsername(username);
+                    t.setDescription(todo.getDescription());
+                    t.setTargetDate(todo.getTargetDate());
+                    t.setDone(todo.isDone());
+                });
     }
 
 }
