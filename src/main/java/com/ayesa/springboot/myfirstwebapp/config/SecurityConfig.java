@@ -20,14 +20,21 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager createUserDetailsManager() {
-        UserDetails userDetails = User.builder()
+        UserDetails userDetails1 = User.builder()
                 .passwordEncoder(passwordEncoder()::encode)
                 .username("in28minutes")
                 .password("dummy")
                 .roles("USER", "ADMIN")
                 .build();
 
-        return new InMemoryUserDetailsManager(userDetails);
+        UserDetails userDetails2 = User.builder()
+                .passwordEncoder(passwordEncoder()::encode)
+                .username("rperezv")
+                .password("dummy")
+                .roles("USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(userDetails1, userDetails2);
     }
 
     @Bean
