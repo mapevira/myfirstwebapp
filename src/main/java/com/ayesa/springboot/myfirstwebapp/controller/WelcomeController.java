@@ -2,6 +2,7 @@ package com.ayesa.springboot.myfirstwebapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +25,12 @@ public class WelcomeController {
     public String goToWelcomePage(ModelMap model) {
         log.info("GoToLoginPage() (in controller) called!");
 
-        model.put("name", "in28minutes");
+        model.put("name", this.getLoggedInUserName());
 
         return "welcome";
     }
 
+    private String getLoggedInUserName() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }
