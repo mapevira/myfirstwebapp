@@ -20,7 +20,7 @@ import java.util.List;
  * @version 01/11/2024 - 10:53
  * @since jdk 1.17
  */
-@Controller
+//@Controller
 @RequiredArgsConstructor
 @SessionAttributes("name")
 public class TodoController {
