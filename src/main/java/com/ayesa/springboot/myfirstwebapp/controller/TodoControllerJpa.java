@@ -2,13 +2,18 @@ package com.ayesa.springboot.myfirstwebapp.controller;
 
 import com.ayesa.springboot.myfirstwebapp.model.Todo;
 import com.ayesa.springboot.myfirstwebapp.repository.TodoRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -39,4 +44,58 @@ public class TodoControllerJpa {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
+    @GetMapping("/add-todo")
+    public String showNewTodoPage(ModelMap model) {
+        Todo todo = Todo.builder()
+                .id(0)
+                .description("")
+                .targetDate(LocalDate.now().plusYears(1))
+                .done(false)
+                .build();
+
+        model.put("todo", todo);
+
+        return "todo";
+    }
+
+    @PostMapping("/add-todo")
+    public String addNewTodo(@Valid Todo todo, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "todo";
+        }
+
+        todo.setUsername(this.getLoggedInUserName());
+        todoRepository.save(todo);
+
+        return "redirect:/list-todos";
+    }
+
+    @GetMapping("/delete-todo")
+    public String deleteTodo(@RequestParam int id) {
+        todoRepository.deleteById(id);
+
+        return "redirect:/list-todos";
+    }
+
+    @GetMapping("/update-todo")
+    public String showUpdateTodoPage(@RequestParam int id, ModelMap model) {
+        Todo todo = todoRepository.findById(id).orElseThrow(() -> new RuntimeException("Todo not found"));
+        model.put("todo", todo);
+
+        return "todo";
+    }
+
+    @PostMapping("/update-todo")
+    public String updateTodo(@Valid Todo todo, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "todo";
+        }
+
+        todo.setUsername(this.getLoggedInUserName());
+        todoRepository.save(todo);
+
+        return "redirect:/list-todos";
+    }
 }
